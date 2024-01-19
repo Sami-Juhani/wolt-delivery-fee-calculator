@@ -1,0 +1,10 @@
+.calculator {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.calc-input-field {
+  display: flex;
+  gap: 10px;
+}
