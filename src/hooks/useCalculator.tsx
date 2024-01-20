@@ -1,29 +1,17 @@
 import { useState } from "react";
+import isRushHour from "../utils/isRushHour";
 
-const useCalculator = (): {
-  cartValue: number;
-  deliveryDistance: number;
-  amountOfItems: number;
-  deliveryTime: string;
-  totalFee: number;
+const MIN_ORDER_VALUE: number = 10.0; // If the cart value is less than 10€, there is a surcharge
+const BASE_DELIVERY_FEE: number = 2.00; // Base delivery fee
+const MAX_DELIVERY_FEE: number = 15.00; // Delivery fee can't be more than 15€
+const FREE_LIMIT: number = 200.00; // Deliver is free if the cart value is over 200€
+const DELIVERY_FEE: number = 1.0; // 1€ per 500 meters
+const ITEM_FEE: number = 0.5; // 0.5€ per item if the quantity is over 4 items
+const BULK_FEE: number = 1.2; // 1,2€ per item if more than 12 items
+const RUSH_HOUR_FEE: number = 1.2; // Total fee is multiplied by this if the delivery time is between Fri 3pm - 7pm
 
-  setDeliveryDistance: React.Dispatch<React.SetStateAction<number>>;
-  setAmountOfItems: React.Dispatch<React.SetStateAction<number>>;
-  setCartValue: React.Dispatch<React.SetStateAction<number>>;
-  setDeliveryTime: React.Dispatch<React.SetStateAction<string>>;
 
-  calculateDeliveryFee: (
-  ) => void;
-
-} => {
-  const MIN_ORDER_VALUE: number = 10.0;
-  const BASE_DELIVERY_FEE: number = 2.00;
-  const MAX_DELIVERY_FEE: number = 15.00;
-  const FREE_LIMIT: number = 200.00;
-  const DELIVERY_FEE: number = 1.0; // 1€ per 500 meters
-  const ITEM_FEE: number = 0.5; // 0.5€ per item if the quntity is over 4 items
-  const BULK_FEE: number = 1.2; // 1,2€ per item if more than 12 items
-
+const useCalculator = () => {
   const [cartValue, setCartValue] = useState<number>(0);
   const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
   const [deliveryTime, setDeliveryTime] = useState<string>("");
@@ -31,14 +19,13 @@ const useCalculator = (): {
   const [totalFee, setTotalFee] = useState<number>(0);
 
   const calculateDeliveryFee = () => {
-    setTotalFee(0);
+    let deliveryFee: number = BASE_DELIVERY_FEE; // Total delivery fee, set to the base fee
 
-    let surcharge: number = 0;
-    let deliveryFee: number = BASE_DELIVERY_FEE;
-    let distanceInKms: number;
-    let kilometers: number;
-    let meters: number;
-
+    /* Store the separate surcharges if they are needed in billing */
+    let smallOrderSurcharge: number = 0.0;
+    let itemFee: number = 0.0;
+    let bulkFee: number = 0.0;
+    let distanceFee: number = 0.0;
 
     if (cartValue >= FREE_LIMIT) {
       setTotalFee(0);
@@ -46,27 +33,39 @@ const useCalculator = (): {
     }
 
     if (cartValue < MIN_ORDER_VALUE) {
-      surcharge = MIN_ORDER_VALUE - cartValue;
+      smallOrderSurcharge = MIN_ORDER_VALUE - cartValue;
     }
 
-    if (deliveryDistance > 1000) {
-      // distanceInKms = (deliveryDistance - 1000.00) / 1000.00;
-      // kilometers = Math.floor(distanceInKms);
-
-      // meters = distanceInKms % 1;
-
-      // deliveryFee += kilometers * DELIVERY_FEE * 2;
-      // if (meters > 0.0) deliveryFee += DELIVERY_FEE;
-      // if (meters > 0.5) deliveryFee += DELIVERY_FEE * 2;
-      deliveryFee += Math.floor((deliveryDistance - 1000) / 500) * DELIVERY_FEE;
-      console.log(deliveryDistance % 500)
-      if (deliveryDistance % 500 > 0) deliveryFee += DELIVERY_FEE;
-      if (deliveryDistance % 500 > 0.5) deliveryFee += DELIVERY_FEE * 2;
+    if (amountOfItems > 4) {
+      itemFee = (amountOfItems - 4) * ITEM_FEE;
     }
 
-    console.log(surcharge);
-    console.log(deliveryFee);
-    setTotalFee(surcharge + deliveryFee);
+    if (amountOfItems > 12) {
+      bulkFee = BULK_FEE;
+    }
+
+    if (deliveryDistance > 1000.00) {
+      /* Distance traveled in 500-meter increments times delivery cost */
+      distanceFee += Math.floor((deliveryDistance - 1000.00) / 500.00) * DELIVERY_FEE;
+      /* Check the remainder */
+      const remainder: number = (deliveryDistance - 1000.00) / 500.00 % 1;
+      if (remainder > 0.0) distanceFee += DELIVERY_FEE;
+    }
+
+    /* Add the surcharges to the delivery fee */
+    deliveryFee += smallOrderSurcharge + itemFee + bulkFee + distanceFee;
+    /* Check if the delivery time is during rush hour */
+    if (isRushHour(new Date(deliveryTime))) deliveryFee *= RUSH_HOUR_FEE;
+    /* Check if the delivery fee is over the maximum */
+    if (deliveryFee > MAX_DELIVERY_FEE) deliveryFee = MAX_DELIVERY_FEE;
+
+    console.log("Item fee: " + itemFee)
+    console.log("distance fee: " + distanceFee)
+    console.log("Bulk fee: " + bulkFee)
+    console.log("Delivery fee" + deliveryFee)
+    console.log("is Rushour? " + isRushHour(new Date(deliveryTime)))
+
+    setTotalFee(deliveryFee);
   };
 
   return {
