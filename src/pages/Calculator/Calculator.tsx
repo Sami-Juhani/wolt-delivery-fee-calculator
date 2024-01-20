@@ -14,6 +14,8 @@ const Calculator: React.FC = () => {
     setAmountOfItems,
     deliveryTime,
     setDeliveryTime,
+    calculateDeliveryFee,
+    totalFee,
   } = useCalculator();
 
   return (
@@ -59,8 +61,11 @@ const Calculator: React.FC = () => {
         data-testid="calculateButton"
         className="calculate-button"
         text="Calculate delivery price"
-        onClick={() => {}}
+        onClick={() => calculateDeliveryFee()}
       />
+      <h2 data-testid="totalFee" className="total-fee">
+        {totalFee}€
+      </h2>
     </div>
   );
 };
