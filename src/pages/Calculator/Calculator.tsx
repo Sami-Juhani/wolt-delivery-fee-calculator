@@ -20,20 +20,22 @@ const Calculator: React.FC = () => {
 
   return (
     <div className="calculator">
-      <div className="calc-input-field">
+      <div className="calc-input-container">
         <Input
-          data-testid="cartValue"
+          dataTestId="cartValue"
           label="Cart Value"
           value={cartValue}
+          min={1}
           onChange={(e) => {
             setCartValue(Number(e.target.value));
           }}
         />
         <span>€</span>
       </div>
-      <div className="calc-input-field">
+      <div className="calc-input-container">
         <Input
-          data-testid="deliveryDistance"
+          className="calc-input-field"
+          dataTestId="deliveryDistance"
           label="Delivery distance"
           value={deliveryDistance}
           onChange={(e) => {
@@ -43,14 +45,16 @@ const Calculator: React.FC = () => {
         <span>m</span>
       </div>
       <Input
-        data-testid="amountOfItems"
+        dataTestId="amountOfItems"
         label="Amount of items"
         value={amountOfItems}
+        min={1}
         onChange={(e) => {
           setAmountOfItems(Number(e.target.value));
         }}
       />
       <DateField
+        dataTestId="deliveryTime"
         label="Delivery time"
         value={deliveryTime}
         onChange={(e) => {
@@ -58,7 +62,7 @@ const Calculator: React.FC = () => {
         }}
       />
       <Button
-        data-testid="calculateButton"
+        dataTestId="calculateButton"
         className="calculate-button"
         text="Calculate delivery price"
         onClick={() => calculateDeliveryFee()}

@@ -1,6 +1,7 @@
 import React from "react";
 
 type ButtonProps = {
+  dataTestId?: string;
   className: string;
   text: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -8,7 +9,11 @@ type ButtonProps = {
 
 const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
-    <button className={props.className} onClick={props.onClick}>
+    <button
+      className={props.className}
+      data-testid={props.dataTestId}
+      onClick={props.onClick}
+    >
       {props.text}
     </button>
   );

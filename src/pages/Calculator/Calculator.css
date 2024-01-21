@@ -4,7 +4,11 @@
   gap: 20px;
 }
 
-.calc-input-field {
+.calc-input-container {
   display: flex;
   gap: 10px;
+}
+
+.calc-input-field {
+  padding: 5px;
 }
