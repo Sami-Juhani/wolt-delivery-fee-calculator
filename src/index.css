@@ -2,6 +2,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  pointer-events: none;
+}
+
+:root {
+  --color-primary: #00C2E8;
+  --color-primary-dark: #00b0d3;
 }
 
 body {

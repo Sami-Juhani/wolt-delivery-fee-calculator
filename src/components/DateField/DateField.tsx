@@ -1,4 +1,5 @@
 type TimeProps = {
+  className?: string;
   dataTestId?: string;
   label: string;
   value: string;
@@ -8,11 +9,11 @@ type TimeProps = {
 const DateField: React.FC<TimeProps> = (props: TimeProps) => {
   return (
     <div className="input-container">
-      <label className="label">{props.label}</label>
+      <label className="input-label">{props.label}</label>
       <input
+        className={props.className}
         data-testid={props.dataTestId}
         type="datetime-local"
-        className="calc-input"
         value={props.value}
         onChange={props.onChange}
       />

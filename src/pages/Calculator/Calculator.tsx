@@ -20,56 +20,65 @@ const Calculator: React.FC = () => {
 
   return (
     <div className="calculator">
-      <div className="calc-input-container">
+      <h1 className="calculator-title">Wolt delivery fee calculator</h1>
+      <div className="calc-all-inputs">
+        <div className="calc-input-field">
+          <Input
+            className="calc-input"
+            dataTestId="cartValue"
+            label="Cart Value"
+            value={cartValue}
+            min={1}
+            width="50px"
+            onChange={(e) => {
+              setCartValue(Number(e.target.value));
+            }}
+          />
+          <span>€</span>
+        </div>
+        <div className="calc-input-field">
+          <Input
+            className="calc-input"
+            dataTestId="deliveryDistance"
+            label="Delivery distance"
+            width="60px"
+            value={deliveryDistance}
+            onChange={(e) => {
+              setDeliveryDistance(Number(e.target.value));
+            }}
+          />
+          <span>m</span>
+        </div>
         <Input
-          dataTestId="cartValue"
-          label="Cart Value"
-          value={cartValue}
+          className="calc-input"
+          dataTestId="amountOfItems"
+          label="Amount of items"
+          value={amountOfItems}
           min={1}
+          width="50px"
           onChange={(e) => {
-            setCartValue(Number(e.target.value));
+            setAmountOfItems(Number(e.target.value));
           }}
         />
-        <span>€</span>
-      </div>
-      <div className="calc-input-container">
-        <Input
-          className="calc-input-field"
-          dataTestId="deliveryDistance"
-          label="Delivery distance"
-          value={deliveryDistance}
+        <DateField
+          className="calc-input"
+          dataTestId="deliveryTime"
+          label="Delivery time"
+          value={deliveryTime}
           onChange={(e) => {
-            setDeliveryDistance(Number(e.target.value));
+            setDeliveryTime(e.target.value);
           }}
         />
-        <span>m</span>
       </div>
-      <Input
-        dataTestId="amountOfItems"
-        label="Amount of items"
-        value={amountOfItems}
-        min={1}
-        onChange={(e) => {
-          setAmountOfItems(Number(e.target.value));
-        }}
-      />
-      <DateField
-        dataTestId="deliveryTime"
-        label="Delivery time"
-        value={deliveryTime}
-        onChange={(e) => {
-          setDeliveryTime(e.target.value);
-        }}
-      />
       <Button
         dataTestId="calculateButton"
-        className="calculate-button"
+        className="calculate-btn"
         text="Calculate delivery price"
         onClick={() => calculateDeliveryFee()}
       />
-      <h2 data-testid="totalFee" className="total-fee">
-        {totalFee}€
-      </h2>
+      <p className="total-fee-text" data-testid="totalFee">
+        Delivery price: <strong>{totalFee}€</strong>
+      </p>
     </div>
   );
 };

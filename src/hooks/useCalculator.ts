@@ -1,4 +1,5 @@
 import { useState } from "react";
+import getMoment from "../utils/getMoment";
 import isRushHour from "../utils/isRushHour";
 
 const MIN_ORDER_VALUE: number = 10.0; // If the cart value is less than 10€, there is a surcharge
@@ -9,12 +10,13 @@ const DELIVERY_FEE: number = 1.0; // 1€ per 500 meters
 const ITEM_FEE: number = 0.5; // 0.5€ per item if the quantity is over 4 items
 const BULK_FEE: number = 1.2; // 1,2€ surcharge if more than 12 items
 const RUSH_HOUR_FEE: number = 1.2; // Total fee is multiplied by this if the delivery time is between Fri 3pm - 7pm
+const NOW = getMoment(new Date()); // Get the current date and time
 
 const useCalculator = () => {
-  const [cartValue, setCartValue] = useState<number>(0);
-  const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
-  const [deliveryTime, setDeliveryTime] = useState<string>("");
-  const [amountOfItems, setAmountOfItems] = useState<number>(0);
+  const [cartValue, setCartValue] = useState<number>(10);
+  const [deliveryDistance, setDeliveryDistance] = useState<number>(1000);
+  const [deliveryTime, setDeliveryTime] = useState<string>(NOW);
+  const [amountOfItems, setAmountOfItems] = useState<number>(4);
   const [totalFee, setTotalFee] = useState<number>(0);
 
   const calculateDeliveryFee = () => {
@@ -57,15 +59,18 @@ const useCalculator = () => {
     /* Check if the delivery fee is over the maximum */
     if (deliveryFee > MAX_DELIVERY_FEE) deliveryFee = MAX_DELIVERY_FEE;
 
-    console.log("Item fee: " + itemFee);
-    console.log("distance fee: " + distanceFee);
-    console.log("Bulk fee: " + bulkFee);
-    console.log("Delivery fee" + deliveryFee);
-    console.log(
-      "is Rushour? " + isRushHour(new Date(deliveryTime), "Friday", "15-19")
-    );
+    // console.log("Item fee: " + itemFee);
+    // console.log("distance fee: " + distanceFee);
+    // console.log("Bulk fee: " + bulkFee);
+    // console.log("Delivery fee" + deliveryFee);
+    // console.log(
+    //   "is Rushour? " + isRushHour(new Date(deliveryTime), "Friday", "15-19")
+    // );
 
-    setTotalFee(deliveryFee);
+    /* Round the delivery fee to two decimal places */
+    const parsedDeliveryFee = parseFloat(deliveryFee.toFixed(2));
+
+    setTotalFee(parsedDeliveryFee);
   };
 
   return {

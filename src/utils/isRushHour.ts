@@ -23,15 +23,16 @@ enum DayOfWeek {
  * Create a function to dynamically determine if a given time falls within a rush hour period. 
  * By accepting parameters for the rush hour day and time, this function can be reused for different rush hour schedules.
  */
-export default function isRushHour(date: Date, rushHourDay: string, rushHourTime: string): boolean {
+function isRushHour(date: Date, rushHourDay: string, rushHourTime: string): boolean {
+  
   const day = date.getDay();
   const hour = date.getHours();
-  
-  if (!day || !hour) throw new Error("Invalid date");
+
+  if (isNaN(day) || isNaN(hour)) throw new Error("Invalid date");
 
   const [ startTime, endTime ] = rushHourTime.split('-').map(Number);
 
-  if (!startTime || !endTime) throw new Error("Invalid rush hour time");
+  if (isNaN(startTime) || isNaN(endTime)) throw new Error("Invalid rush hour time");
 
   return day === getDayOfWeek(rushHourDay) && hour >= startTime && hour < endTime;
 }
@@ -68,3 +69,5 @@ function getDayOfWeek(day: string): DayOfWeek {
       throw new Error("Invalid day of week");
   }
 }
+
+export default isRushHour;
