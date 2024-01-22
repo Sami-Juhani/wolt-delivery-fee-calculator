@@ -59,17 +59,9 @@ const useCalculator = () => {
     /* Check if the delivery fee is over the maximum */
     if (deliveryFee > MAX_DELIVERY_FEE) deliveryFee = MAX_DELIVERY_FEE;
 
-    // console.log("Item fee: " + itemFee);
-    // console.log("distance fee: " + distanceFee);
-    // console.log("Bulk fee: " + bulkFee);
-    // console.log("Delivery fee" + deliveryFee);
-    // console.log(
-    //   "is Rushour? " + isRushHour(new Date(deliveryTime), "Friday", "15-19")
-    // );
-
     /* Round the delivery fee to two decimal places */
     const parsedDeliveryFee = parseFloat(deliveryFee.toFixed(2));
-
+    
     setTotalFee(parsedDeliveryFee);
   };
 

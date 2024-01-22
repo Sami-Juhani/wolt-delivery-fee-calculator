@@ -7,7 +7,11 @@
 
 :root {
   --color-primary: #00C2E8;
-  --color-primary-dark: #00b0d3;
+  --color-primary-light: #d7f6fd;
+  --color-primary-dark: #0eabcb;
+  --color-primary-white: #f2f2f2;
+  
+  --font-primary-title: 'Helvetica', 'Segoe UI', 'Roboto', sans-serif;
 }
 
 body {
@@ -22,4 +26,13 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }

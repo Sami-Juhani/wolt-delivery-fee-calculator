@@ -8,7 +8,7 @@ type TimeProps = {
 
 const DateField: React.FC<TimeProps> = (props: TimeProps) => {
   return (
-    <div className="input-container">
+    <div className="flex-row input-container">
       <label className="input-label">{props.label}</label>
       <input
         className={props.className}
