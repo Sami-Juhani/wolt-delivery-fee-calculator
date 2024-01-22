@@ -86,16 +86,18 @@ const Calculator: React.FC = () => {
         onClick={() => calculateDeliveryFee()}
       />
       <div className="flex-row calc-total-container">
-        <div className="total-fee-text">
+        <div className={totalFee !== 0 ? "total-fee-text" : "total-fee-text hidden"}>
           {isFree ? (
             "Delivery is free!"
           ) : (
             <p>
-              Delivery price: <strong data-testid="totalFee">{totalFee}</strong>
+              Your delivery price is:{" "}
+              <strong data-testid="totalFee">{totalFee}</strong>
               <span style={{ marginLeft: "2px" }}>€</span>
             </p>
           )}
         </div>
+
         <img
           src="/images/wolt-logo.png"
           alt="Wolt logo"
