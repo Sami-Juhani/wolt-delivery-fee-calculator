@@ -1,5 +1,3 @@
-import React from "react";
-
 type ButtonProps = {
   className: string;
   text: string;
@@ -8,15 +6,15 @@ type ButtonProps = {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
+const Button: React.FC<ButtonProps> = ({ className, text, dataTestId, disabled, onClick }: ButtonProps) => {
   return (
     <button
-      className={props.className}
-      data-testid={props.dataTestId}
-      onClick={props.onClick}
-      disabled={props.disabled}
+      className={className}
+      data-testid={dataTestId}
+      onClick={onClick}
+      disabled={disabled}
     >
-      {props.text}
+      {text}
     </button>
   );
 };

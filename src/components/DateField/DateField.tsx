@@ -6,16 +6,22 @@ type TimeProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const DateField: React.FC<TimeProps> = (props: TimeProps) => {
+const DateField: React.FC<TimeProps> = ({
+  className,
+  dataTestId,
+  label,
+  value,
+  onChange,
+}: TimeProps) => {
   return (
     <div className="flex-row input-container">
-      <label className="input-label">{props.label}</label>
+      <label className="input-label">{label}</label>
       <input
-        className={props.className}
-        data-testid={props.dataTestId}
+        className={className}
+        data-testid={dataTestId}
         type="datetime-local"
-        value={props.value}
-        onChange={props.onChange}
+        value={value}
+        onChange={onChange}
       />
     </div>
   );

@@ -40,3 +40,7 @@ code {
 .hidden {
   display: none;
 }
+
+.margin-left-small {
+  margin-left: 2px;
+}

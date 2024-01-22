@@ -5,8 +5,16 @@ import useCalculator from "../../hooks/useCalculator";
 import Button from "../../components/Button";
 import "./Calculator.css";
 
+const FREE_DELIVERY_LIMIT = 200;
+
 const Calculator: React.FC = () => {
   const [isFree, setIsFree] = useState<boolean>(false);
+
+  const handleCartValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCartValue(Number(e.target.value));
+    if (Number(e.target.value) >= FREE_DELIVERY_LIMIT) setIsFree(true);
+    else setIsFree(false);
+  };
 
   const {
     cartValue,
@@ -34,11 +42,7 @@ const Calculator: React.FC = () => {
             value={cartValue}
             min={1}
             width="60px"
-            onChange={(e) => {
-              setCartValue(Number(e.target.value));
-              if (Number(e.target.value) >= 200) setIsFree(true);
-              else setIsFree(false);
-            }}
+            onChange={handleCartValueChange}
           />
           <span>€</span>
         </div>
@@ -86,18 +90,17 @@ const Calculator: React.FC = () => {
         onClick={() => calculateDeliveryFee()}
       />
       <div className="flex-row calc-total-container">
-        <div className={totalFee !== 0 ? "total-fee-text" : "total-fee-text hidden"}>
+        <div className={totalFee !== 0 || isFree ? "total-fee-text" : "total-fee-text hidden"}>
           {isFree ? (
             "Delivery is free!"
           ) : (
             <p>
               Your delivery price is:{" "}
               <strong data-testid="totalFee">{totalFee}</strong>
-              <span style={{ marginLeft: "2px" }}>€</span>
+              <span className="margin-left-small">€</span>
             </p>
           )}
         </div>
-
         <img
           src="/images/wolt-logo.png"
           alt="Wolt logo"

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import getMoment from "../utils/getMoment";
+import formatDate from "../utils/formatDate";
 import isRushHour from "../utils/isRushHour";
 
 const MIN_ORDER_VALUE: number = 10.0; // If the cart value is less than 10€, there is a surcharge
@@ -10,7 +10,15 @@ const DELIVERY_FEE: number = 1.0; // 1€ per 500 meters
 const ITEM_FEE: number = 0.5; // 0.5€ per item if the quantity is over 4 items
 const BULK_FEE: number = 1.2; // 1,2€ surcharge if more than 12 items
 const RUSH_HOUR_FEE: number = 1.2; // Total fee is multiplied by this if the delivery time is between Fri 3pm - 7pm
-const NOW = getMoment(new Date()); // Get the current date and time
+const RUSH_HOUR_DAY: string = "Friday"; // Rush hour day
+const RUSH_HOUR_TIME: string = "15-19"; // Rush hour time
+const NOW = formatDate(new Date()); // Get the current date and time
+
+/**
+ * Calculates the total delivery fee based on the cart value, delivery distance, delivery time, and amount of items.
+ * 
+ * @returns void - This function does not return anything as it directly updates the state of the total fee.
+ */
 
 const useCalculator = () => {
   const [cartValue, setCartValue] = useState<number>(10);
@@ -19,7 +27,7 @@ const useCalculator = () => {
   const [amountOfItems, setAmountOfItems] = useState<number>(4);
   const [totalFee, setTotalFee] = useState<number>(0);
 
-  const calculateDeliveryFee = () => {
+  const calculateDeliveryFee = () : void => {
     let deliveryFee: number = BASE_DELIVERY_FEE; // Total delivery fee, set to the base fee
 
     /* Store the separate surcharges if they are needed in billing */
@@ -54,7 +62,7 @@ const useCalculator = () => {
     /* Add the surcharges to the delivery fee */
     deliveryFee += smallOrderSurcharge + itemFee + bulkFee + distanceFee;
     /* Check if the delivery time is during rush hour */
-    if (isRushHour(new Date(deliveryTime), "Friday", "15-19"))
+    if (isRushHour(new Date(deliveryTime), RUSH_HOUR_DAY, RUSH_HOUR_TIME))
       deliveryFee *= RUSH_HOUR_FEE;
     /* Check if the delivery fee is over the maximum */
     if (deliveryFee > MAX_DELIVERY_FEE) deliveryFee = MAX_DELIVERY_FEE;

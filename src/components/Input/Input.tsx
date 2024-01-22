@@ -1,5 +1,5 @@
 type InputProps = {
-  type: string;
+  type: 'text' | 'number' | 'password' | 'email';
   label: string;
   value: number;
   dataTestId?: string;
@@ -10,19 +10,29 @@ type InputProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input: React.FC<InputProps> = (props: InputProps) => {
+const Input: React.FC<InputProps> = ({
+  type,
+  label,
+  value,
+  dataTestId,
+  className,
+  min,
+  width,
+  disabled,
+  onChange,
+}) => {
   return (
     <div className="flex-row input-container">
-      <label className="input-label">{props.label}</label>
+      <label className="input-label">{label}</label>
       <input
-        type={props.type}
-        className={props.className}
-        style={{ width: props.width }}
-        data-testid={props.dataTestId}
-        value={props.value}
-        onChange={props.onChange}
-        min={props.min}
-        disabled={props.disabled}
+        type={type}
+        className={className}
+        style={{ width: width }}
+        data-testid={dataTestId}
+        value={value}
+        onChange={onChange}
+        min={min}
+        disabled={disabled}
       />
     </div>
   );

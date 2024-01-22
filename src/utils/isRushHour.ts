@@ -1,4 +1,4 @@
-enum DayOfWeek {
+export enum DayOfWeek {
   MONDAY = 1,
   TUESDAY = 2,
   WEDNESDAY = 3,
@@ -24,15 +24,16 @@ enum DayOfWeek {
  * By accepting parameters for the rush hour day and time, this function can be reused for different rush hour schedules.
  */
 function isRushHour(date: Date, rushHourDay: string, rushHourTime: string): boolean {
+  if (!(date instanceof Date)) throw new Error("Invalid date. Expected a Date object.");
   
   const day = date.getDay();
   const hour = date.getHours();
 
-  if (isNaN(day) || isNaN(hour)) throw new Error("Invalid date");
+  if (isNaN(day) || isNaN(hour)) throw new Error("Invalid date. Expected a Date object.");
 
   const [ startTime, endTime ] = rushHourTime.split('-').map(Number);
 
-  if (isNaN(startTime) || isNaN(endTime)) throw new Error("Invalid rush hour time");
+  if (isNaN(startTime) || isNaN(endTime)) throw new Error("Invalid rush hour time. Expected format: 'start-end'.");
 
   return day === getDayOfWeek(rushHourDay) && hour >= startTime && hour < endTime;
 }
@@ -46,27 +47,26 @@ function isRushHour(date: Date, rushHourDay: string, rushHourTime: string): bool
  *
  * @remarks
  * The function supports the following day strings: "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday".
- * The function is case-sensitive and does not support abbreviations or other formats.
  */
 
-function getDayOfWeek(day: string): DayOfWeek {
-  switch (day) {
-    case "Monday":
+export function getDayOfWeek(day: string): DayOfWeek {
+  switch (day.toLowerCase()) {
+    case "monday":
       return DayOfWeek.MONDAY;
-    case "Tuesday":
+    case "tuesday":
       return DayOfWeek.TUESDAY;
-    case "Wednesday":
+    case "wednesday":
       return DayOfWeek.WEDNESDAY;
-    case "Thursday":
+    case "thursday":
       return DayOfWeek.THURSDAY;
-    case "Friday":
+    case "friday":
       return DayOfWeek.FRIDAY;
-    case "Saturday":
+    case "saturday":
       return DayOfWeek.SATURDAY;
-    case "Sunday":
+    case "sunday":
       return DayOfWeek.SUNDAY;
     default:
-      throw new Error("Invalid day of week");
+      throw new Error("Invalid day of week. Expected one of: 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'.");
   }
 }
 

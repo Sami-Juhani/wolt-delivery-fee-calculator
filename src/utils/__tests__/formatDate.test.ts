@@ -1,4 +1,4 @@
-import getMoment from "../getMoment";
+import getMoment from "../formatDate";
 
 let date: Date;
 let formattedDate: string;
