@@ -1,4 +1,5 @@
 type TimeProps = {
+  id: string;
   className?: string;
   dataTestId?: string;
   label: string;
@@ -7,6 +8,7 @@ type TimeProps = {
 };
 
 const DateField: React.FC<TimeProps> = ({
+  id,
   className,
   dataTestId,
   label,
@@ -15,8 +17,9 @@ const DateField: React.FC<TimeProps> = ({
 }: TimeProps) => {
   return (
     <div className="flex-row input-container">
-      <label className="input-label">{label}</label>
+      <label htmlFor={id} className="input-label">{label}</label>
       <input
+        id={id}
         className={className}
         data-testid={dataTestId}
         type="datetime-local"

@@ -1,4 +1,5 @@
 type InputProps = {
+  id: string;
   type: 'text' | 'number' | 'password' | 'email';
   label: string;
   value: number;
@@ -11,6 +12,7 @@ type InputProps = {
 };
 
 const Input: React.FC<InputProps> = ({
+  id,
   type,
   label,
   value,
@@ -23,8 +25,9 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="flex-row input-container">
-      <label className="input-label">{label}</label>
+      <label htmlFor={id} className="input-label">{label}</label>
       <input
+        id={id}
         type={type}
         className={className}
         style={{ width: width }}

@@ -36,6 +36,7 @@ const Calculator: React.FC = () => {
 
         <div className="flex-row calc-input-field">
           <Input
+            id="calc-cartvalue-input"
             className="calc-input"
             type="number"
             dataTestId="cartValue"
@@ -50,6 +51,7 @@ const Calculator: React.FC = () => {
 
         <div className="flex-row calc-input-field">
           <Input
+            id="calc-deliverydist-input"
             className="calc-input"
             type="number"
             dataTestId="deliveryDistance"
@@ -64,6 +66,7 @@ const Calculator: React.FC = () => {
         </div>
 
         <Input
+          id="calc-amountofitems-input"
           className="calc-input"
           type="number"
           dataTestId="amountOfItems"
@@ -77,6 +80,7 @@ const Calculator: React.FC = () => {
         />
 
         <DateField
+          id="calc-deliverytime-input"
           className="calc-input"
           dataTestId="deliveryTime"
           label="Delivery time"

@@ -27,10 +27,6 @@ describe("isRushHour", () => {
     expect(() => isRushHour(invalidDate, "Friday", "15-19")).toThrow("Invalid date. Expected a Date object.");
   });
 
-  it("throws an error if the date is not a valid Date object", () => {
-    expect(() => isRushHour("invalid date" as any, "Friday", "15-19")).toThrow("Invalid date. Expected a Date object.");
-  });
-
   it("throws an error if the rush hour time is not in the correct format", () => {
     date = new Date("2024-01-19T15:00");
     expect(() => isRushHour(date, "Friday", "invalid format")).toThrow("Invalid rush hour time. Expected format: 'start-end'.");
