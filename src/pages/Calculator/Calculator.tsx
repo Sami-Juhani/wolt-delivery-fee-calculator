@@ -33,7 +33,6 @@ const Calculator: React.FC = () => {
     <div className="calculator">
       <h1 className="calculator-title">Wolt delivery fee calculator</h1>
       <div className="flex-column calc-all-inputs">
-
         <div className="flex-row calc-input-field">
           <Input
             id="calc-cartvalue-input"
@@ -100,12 +99,18 @@ const Calculator: React.FC = () => {
       />
 
       <div className="flex-row calc-total-container">
-        <div className={totalFee !== 0 || isFree ? "total-fee-text" : "total-fee-text hidden"}>
+        <div
+          className={
+            totalFee !== 0 || isFree
+              ? "total-fee-text"
+              : "total-fee-text hidden"
+          }
+        >
           {isFree ? (
             "Delivery is free!"
           ) : (
             <p>
-              Your delivery price is:{" "}
+              Your delivery price is{" "}
               <strong data-testid="totalFee">{totalFee}</strong>
               <span className="margin-left-small">€</span>
             </p>
@@ -117,7 +122,6 @@ const Calculator: React.FC = () => {
           className="wolt-logo"
         />
       </div>
-      
     </div>
   );
 };
